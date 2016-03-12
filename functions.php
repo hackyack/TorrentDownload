@@ -12,8 +12,6 @@ define("LASTPAGECPASBIEN", 5);
 function file_to_dl($name, $url)
 {
     $path = "./torrentsfile/" . $name . ".torrent";
-    echo $path . '<br/>';
-    echo $url . '<br/>';
     $fp = fopen($path, 'x');
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_FILE, $fp);
@@ -22,13 +20,12 @@ function file_to_dl($name, $url)
     $curl_errno = curl_errno($ch);
     $curl_error = curl_error($ch);
 
-    echo "downloading of file  " . $name;
+    echo "downloading of file  " . $name . "\n\r";
     if ($curl_errno > 0) {
         echo "cURL Error ($curl_errno): $curl_error\n";
     } else {
         echo "Data received: $data\n";
     }
-    echo "<br/>";
 
     curl_close($ch);
     fclose($fp);
