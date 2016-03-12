@@ -8,6 +8,7 @@
 include_once('simple_html_dom.php');
 define("LASTPAGECPASBIEN", 5);
 
+/* send curl request with name and url of the torrent*/
 function file_to_dl($name, $url)
 {
     $path = "./torrentsfile/" . $name . ".torrent";
@@ -21,7 +22,7 @@ function file_to_dl($name, $url)
     $curl_errno = curl_errno($ch);
     $curl_error = curl_error($ch);
 
-    echo "téléchargement du fichier " . "<strong>" . $name . "</strong>";
+    echo "downloading of file  " . $name;
     if ($curl_errno > 0) {
         echo "cURL Error ($curl_errno): $curl_error\n";
     } else {
@@ -33,41 +34,13 @@ function file_to_dl($name, $url)
     fclose($fp);
 }
 
-function testdown($urls)
-{
-
-    $save_to = './torrentsfile/';
-
-    $mh = curl_multi_init();
-    foreach ($urls as $i => $url) {
-        $g = $save_to . basename($url);
-        if (!is_file($g)) {
-            $conn[$i] = curl_init($url);
-            $fp[$i] = fopen($g, "w");
-            curl_setopt($conn[$i], CURLOPT_FILE, $fp[$i]);
-            curl_setopt($conn[$i], CURLOPT_HEADER, 0);
-            curl_setopt($conn[$i], CURLOPT_CONNECTTIMEOUT, 60);
-            curl_multi_add_handle($mh, $conn[$i]);
-        }
-    }
-    do {
-        $n = curl_multi_exec($mh, $active);
-    } while ($active);
-    foreach ($urls as $i => $url) {
-        curl_multi_remove_handle($mh, $conn[$i]);
-        curl_close($conn[$i]);
-        fclose($fp[$i]);
-    }
-    curl_multi_close($mh);
-
-}
-
+/* Replace useless caracter from the name */
 function format_name($name){
         $tmpname = str_replace("-"," ",$name);
         $tmpname2 =  str_replace("french"," ",$tmpname);
-
         return $newname;
 }
+
 function return_torrent_url($nametorrent)
 {
 
@@ -103,7 +76,7 @@ function get_array_namestorrent($links)
     }
     return $names;
 }
-
+//testfunction
 function show($links)
 {
     $nlink = count($links);
