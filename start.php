@@ -10,10 +10,6 @@ include('functions.php');
 $arraylink = get_array_links();
 
 $arrayname = get_array_namestorrent($arraylink);
-
-//foreach($arrayname as $name){
-//    echo format_name($name)."<br/>";
-//}
 $torrentlinks;
 for($cpt=0;$cpt < count($arrayname);$cpt++){
     $torrentlinks[$cpt] = return_torrent_url($arrayname[$cpt]);
